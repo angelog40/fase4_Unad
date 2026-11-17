@@ -2,3 +2,7 @@
 2026-11-09 11:47:37,340 - ERROR - Error procesando reserva: El servicio S-01 no está disponible.
 2026-11-09 11:47:37,340 - ERROR - Error procesando reserva: La duración de la reserva debe ser mayor a 0.
 2026-11-09 11:47:37,340 - ERROR - Operación 10 fallida: El cliente debe tener identificación y nombre válidos.
+2026-11-15 21:55:11,087 - ERROR - Operación 2 fallida: El correo luiscorreo.com no tiene un formato válido.
+2026-11-15 21:55:11,087 - ERROR - Error procesando reserva: El servicio S-01 no está disponible.
+2026-11-15 21:55:11,088 - ERROR - Error procesando reserva: La duración de la reserva debe ser mayor a 0.
+2026-11-15 21:55:11,088 - ERROR - Operación 10 fallida: El cliente debe tener identificación y nombre válidos.
