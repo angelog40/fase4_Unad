@@ -7,3 +7,22 @@
 2026-11-15 21:55:11,088 - ERROR - Error procesando reserva: La duraci�n de la reserva debe ser mayor a 0.
 2026-11-15 21:55:11,088 - ERROR - Operaci�n 10 fallida: El cliente debe tener identificaci�n y nombre v�lidos.
 2026-11-21 13:11:52,514 - ERROR - Error de negocio en men�: El correo ds no tiene un formato v�lido.
+2026-11-21 13:28:14,752 - INFO - Servicio creado exitosamente: Reserva de Sala (ID: S-01) | Tarifa: $50.00
+2026-11-21 13:28:14,752 - INFO - Servicio creado exitosamente: Alquiler de Equipo Informático (ID: E-01) | Tarifa: $30.00
+2026-11-21 13:28:14,752 - INFO - Servicio creado exitosamente: Asesoría Especializada (ID: A-01) | Tarifa: $100.00
+2026-11-21 13:28:22,464 - INFO - Inicio de simulación automática de operaciones.
+2026-11-21 13:28:22,464 - INFO - Cliente registrado exitosamente: 1001 - Ana Gomez
+2026-11-21 13:28:22,464 - ERROR - Operación 2 fallida: El correo 'luiscorreo.com' no tiene un formato válido.
+2026-11-21 13:28:22,465 - INFO - Cliente registrado exitosamente: 1003 - Carlos Ruiz
+2026-11-21 13:28:22,465 - INFO - Servicio creado exitosamente: Reserva de Sala (ID: S-01) | Tarifa: $50.00
+2026-11-21 13:28:22,465 - INFO - Servicio creado exitosamente: Alquiler de Equipo Informático (ID: E-01) | Tarifa: $30.00
+2026-11-21 13:28:22,465 - INFO - Servicio creado exitosamente: Asesoría Especializada (ID: A-01) | Tarifa: $100.00
+2026-11-21 13:28:22,465 - ERROR - Operación 4 fallida: La tarifa base de la sala debe ser mayor a 0.
+2026-11-21 13:28:22,465 - ERROR - Operación 5 fallida: ID inválido para asesoría ('X-99'). Debe iniciar con 'A-'.
+2026-11-21 13:28:22,465 - INFO - Reserva Confirmada: Cliente: Ana Gomez (ana@correo.com) | Reserva de Sala (ID: S-01) | Costo Total: $238.00
+2026-11-21 13:28:22,466 - ERROR - Error procesando reserva: El servicio S-01 no está disponible.
+2026-11-21 13:28:22,466 - ERROR - Error procesando reserva: La duración de la reserva debe ser mayor a 0.
+2026-11-21 13:28:22,466 - INFO - Reserva cancelada exitosamente. El servicio S-01 vuelve a estar disponible.
+2026-11-21 13:28:22,466 - INFO - Consulta de tarifa con descuento realizada: $214.20
+2026-11-21 13:28:22,466 - ERROR - Operación 10 fallida: El cliente debe tener identificación y nombre válidos.
+2026-11-21 13:28:22,467 - INFO - Fin de simulación automática de operaciones.
