@@ -6,3 +6,4 @@
 2026-11-15 21:55:11,087 - ERROR - Error procesando reserva: El servicio S-01 no está disponible.
 2026-11-15 21:55:11,088 - ERROR - Error procesando reserva: La duración de la reserva debe ser mayor a 0.
 2026-11-15 21:55:11,088 - ERROR - Operación 10 fallida: El cliente debe tener identificación y nombre válidos.
+2026-11-21 13:11:52,514 - ERROR - Error de negocio en menú: El correo ds no tiene un formato válido.

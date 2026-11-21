@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 from datetime import datetime
 
 
-#configuracion de logs
+# Configuración de logs
 logging.basicConfig(
     filename='sistema_eventos.log',
     level=logging.ERROR,
@@ -11,7 +11,7 @@ logging.basicConfig(
 )
 
 
-# excepciones personalizadas
+# Excepciones personalizadas
 class SistemaGestionError(Exception):
     """Excepción base para el sistema."""
     pass
@@ -37,7 +37,7 @@ class EntidadGeneral(ABC):
         pass
 
 
-# clase clientes con encapsulacion
+# Clase Cliente con encapsulación
 class Cliente(EntidadGeneral):
     def __init__(self, identificacion, nombre, correo):
         self.__identificacion = identificacion
@@ -58,7 +58,7 @@ class Cliente(EntidadGeneral):
         return f"Cliente: {self.__nombre} ({self.__correo})"
 
 
-# clases abstractas servicios y derivados
+# Clase abstracta Servicio y derivados
 class Servicio(EntidadGeneral):
     def __init__(self, id_servicio, tarifa_base):
         self.id_servicio = id_servicio
@@ -105,7 +105,7 @@ class AsesoriaEspecializada(Servicio):
         return f"Asesoría Especializada (ID: {self.id_servicio})"
 
 
-# 6. Clase reserva
+# Clase Reserva
 class Reserva:
     def __init__(self, cliente, servicio, duracion):
         self.cliente = cliente
@@ -138,10 +138,21 @@ class Reserva:
             self.estado = "Fallida"
             print(f"No se pudo procesar la reserva. Razón: {e}")
 
+    def cancelar_reserva(self):
+        try:
+            if self.estado != "Confirmada":
+                raise ReservaInvalidaError(f"No se puede cancelar una reserva en estado '{self.estado}'.")
+            self.estado = "Cancelada"
+            self.servicio.disponible = True
+            print(f"Reserva cancelada exitosamente. El servicio {self.servicio.obtener_identificador()} vuelve a estar disponible.")
+        except ReservaInvalidaError as e:
+            logging.error(f"Error al cancelar reserva: {e}")
+            print(f"Error: {e}")
 
-# Simulacion de 10 operaciones
+
+# Simulación de 10 operaciones
 def simular_operaciones():
-    print("--- INICIANDO SIMULACIÓN DE OPERACIONES SOFTWARE FJ ---")
+    print("\n--- INICIANDO SIMULACIÓN DE OPERACIONES SOFTWARE FJ ---")
     
     # 1. Registro válido de cliente
     c1 = Cliente("1001", "Ana Gomez", "ana@correo.com")
@@ -180,10 +191,110 @@ def simular_operaciones():
         
     # 10. Forzar error de sistema no controlado para probar el log
     try:
-        c1._Cliente__identificacion = None # Manipulación indebida saltando encapsulación
+        c1._Cliente__identificacion = None  # Manipulación indebida saltando encapsulación
         c1.validar_datos()
     except ClienteInvalidoError as e:
         logging.error(f"Operación 10 fallida: {e}")
 
+    print("--- FIN DE LA SIMULACIÓN ---")
+
+
+# Menú interactivo por consola
+def menu_interactivo():
+    clientes = []
+    servicios = [
+        ReservaSala("S-01", 50.0),
+        AlquilerEquipo("E-01", 30.0),
+        AsesoriaEspecializada("A-01", 100.0)
+    ]
+    reservas = []
+
+    while True:
+        print("\n=== SISTEMA DE GESTIÓN - SOFTWARE FJ ===")
+        print("1. Registrar cliente")
+        print("2. Ver servicios disponibles")
+        print("3. Crear reserva")
+        print("4. Cancelar reserva")
+        print("5. Ver reservas registradas")
+        print("6. Ejecutar simulación automática (10 operaciones)")
+        print("0. Salir")
+
+        opcion = input("Seleccione una opción: ").strip()
+
+        try:
+            if opcion == "1":
+                id_cli = input("Identificación: ").strip()
+                nombre = input("Nombre completo: ").strip()
+                correo = input("Correo electrónico: ").strip()
+                nuevo_cliente = Cliente(id_cli, nombre, correo)
+                clientes.append(nuevo_cliente)
+                print(f"Cliente registrado: {nuevo_cliente.describir_entidad()}")
+
+            elif opcion == "2":
+                print("\n--- Servicios ---")
+                for idx, s in enumerate(servicios, 1):
+                    estado = "Disponible" if s.disponible else "Ocupado"
+                    print(f"{idx}. {s.describir_entidad()} | Tarifa: ${s.tarifa_base:.2f}/h | Estado: {estado}")
+
+            elif opcion == "3":
+                if not clientes:
+                    raise ReservaInvalidaError("Debe registrar al menos un cliente primero.")
+                
+                print("\nSeleccione cliente:")
+                for idx, c in enumerate(clientes, 1):
+                    print(f"{idx}. {c.describir_entidad()}")
+                c_idx = int(input("Número de cliente: ")) - 1
+
+                print("\nSeleccione servicio:")
+                for idx, s in enumerate(servicios, 1):
+                    estado = "Disponible" if s.disponible else "Ocupado"
+                    print(f"{idx}. {s.describir_entidad()} ({estado})")
+                s_idx = int(input("Número de servicio: ")) - 1
+
+                duracion = float(input("Duración en horas: "))
+                
+                nueva_reserva = Reserva(clientes[c_idx], servicios[s_idx], duracion)
+                nueva_reserva.procesar_reserva()
+                reservas.append(nueva_reserva)
+
+            elif opcion == "4":
+                if not reservas:
+                    raise ReservaInvalidaError("No hay reservas registradas para cancelar.")
+                
+                print("\nSeleccione reserva a cancelar:")
+                for idx, r in enumerate(reservas, 1):
+                    print(f"{idx}. {r.cliente.obtener_identificador()} - {r.servicio.obtener_identificador()} ({r.estado})")
+                r_idx = int(input("Número de reserva: ")) - 1
+                reservas[r_idx].cancelar_reserva()
+
+            elif opcion == "5":
+                if not reservas:
+                    print("No hay reservas registradas.")
+                else:
+                    print("\n--- Reservas ---")
+                    for idx, r in enumerate(reservas, 1):
+                        print(f"{idx}. {r.cliente.describir_entidad()} | {r.servicio.describir_entidad()} | Duración: {r.duracion}h | Estado: {r.estado}")
+
+            elif opcion == "6":
+                simular_operaciones()
+
+            elif opcion == "0":
+                print("Saliendo del sistema Software FJ...")
+                break
+
+            else:
+                print("Opción no válida. Intente de nuevo.")
+
+        except (ClienteInvalidoError, ReservaInvalidaError, ServicioNoDisponibleError) as e:
+            logging.error(f"Error de negocio en menú: {e}")
+            print(f"[Error] {e}")
+        except (ValueError, IndexError) as e:
+            logging.error(f"Error de entrada en menú: {e}")
+            print("[Error] Entrada inválida o índice fuera de rango. Verifique los datos ingresados.")
+        except Exception as e:
+            logging.error(f"Error inesperado en menú: {e}")
+            print(f"[Error inesperado] {e}")
+
+
 if __name__ == "__main__":
-    simular_operaciones()
+    menu_interactivo()
